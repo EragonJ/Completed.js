@@ -16,9 +16,14 @@
 
 .autocomplete-list {
     padding: 5px 5px 5px 10px;
+    background-color: #eee;
+}
+
+.autocomplete-list.selected {
     background-color: #ccc;
 }
 
 .autocomplete-list:hover {
-    background-color: #eee;
+    background-color: #ccc;
+    cursor: pointer;
 }

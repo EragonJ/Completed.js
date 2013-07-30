@@ -28,7 +28,7 @@
         this.doms = $(targetSelector);
 
         this.autoCompleteData = userOptions.data || null;
-        this.autoCompleteDataSrc = userOptions.dataSrc || "data/timezone.json";
+        this.autoCompleteDataSrc = userOptions.dataSrc || "data/autocomplete.json";
 
         this.autoCompleteId = "autoCompleteWrapper";
 
@@ -71,7 +71,7 @@
                     // TODO
                     // check data here
                     var parsedData = JSON.parse(data);
-                    that.autoCompleteData = parsedData["timeZoneNames"];
+                    that.autoCompleteData = parsedData["autoCompleteData"];
 
                     callback.call(that);
                 });
@@ -92,6 +92,7 @@
                     var userInputValue = that.trimSpaces(this.value),
                         matches = that.searchPossibleMatches(userInputValue);
 
+                    console.log(matches);
                 };
 
                 dom.onblur = function(e) {

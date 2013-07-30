@@ -19,6 +19,38 @@
         return document.querySelectorAll(sel);
     }; 
 
+    $.removeClass = function(sel, className) {
+        var $sel = $(sel)[0];
+
+        if ($.hasClass(sel, className)) {
+
+            // check all possible classnames
+            var regex = new RegExp("\\s*" + className + "\\s*", "g"),
+                newClassName = $sel.className.replace(regex, " ");
+
+            $sel.className = newClassName;
+        }
+    };
+
+    $.addClass = function(sel, className) {
+        var $sel = $(sel)[0];
+
+        if (!$.hasClass(sel, className)) {
+            $sel.className += " " + className;
+        }
+    };
+
+    $.hasClass = function(sel, className) {
+        var $sel = $(sel)[0];
+
+        if ($sel) {
+            var regex = new RegExp(className);
+            return regex.test($sel.className);
+        }
+
+        return false;
+    };
+
     var AutoComplete = function(targetSelector, userOptions) {
 
         // options
@@ -29,9 +61,8 @@
 
         this.autoCompleteData = userOptions.data || null;
         this.autoCompleteDataSrc = userOptions.dataSrc || "data/autocomplete.json";
-
         this.autoCompleteId = "autoCompleteWrapper";
-
+        this.autoCompleteOpening = false;
 
         // start point
         this.init();
@@ -85,6 +116,7 @@
             var that = this;
 
             for (var i = 0, len = this.doms.length; i < len; i++) {
+
                 var dom = this.doms[i];
 
                 dom.onkeyup = function(e) {
@@ -96,7 +128,10 @@
                 };
 
                 dom.onblur = function(e) {
-                    
+
+                    that.autoCompleteOpening = false;              
+
+
                 };
             }
         },

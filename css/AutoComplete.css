@@ -1,3 +1,7 @@
 #autoCompleteWrapper {
 
 }
+
+#autoCompleteWrapper.close {
+    display: none;
+}

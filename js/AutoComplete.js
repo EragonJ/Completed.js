@@ -22,28 +22,58 @@
     }; 
 
     $.removeClass = function(sel, className) {
-        var $sel = $(sel)[0];
 
-        if ($.hasClass(sel, className)) {
+        var $sel;
 
-            // check all possible classnames
-            var regex = new RegExp("\\s*" + className + "\\s*", "g"),
-                newClassName = $sel.className.replace(regex, " ");
+        if (typeof sel === "string") {
+            $sel = $(sel);
+        }
+        else {
+            $sel = [sel];
+        }
 
-            $sel.className = newClassName;
+        for (var i = 0, len = $sel.length; i < len; i++) {
+            if ($.hasClass($sel[i], className)) {
+
+                // check all possible classnames
+                var regex = new RegExp("\\s*" + className + "\\s*", "g"),
+                    newClassName = $sel[i].className.replace(regex, " ");
+
+                $sel[i].className = newClassName;
+            }
         }
     };
 
     $.addClass = function(sel, className) {
-        var $sel = $(sel)[0];
 
-        if (!$.hasClass(sel, className)) {
-            $sel.className += " " + className;
+        var $sel;
+
+        if (typeof sel === "string") {
+            $sel = $(sel);
+        }
+        else {
+            $sel = [sel];
+        }
+
+        for (var i = 0, len = $sel.length; i < len; i++) {
+            if (!$.hasClass($sel[i], className)) {
+                $sel[i].className += " " + className;
+            }
         }
     };
 
     $.hasClass = function(sel, className) {
-        var $sel = $(sel)[0];
+
+        // hasClass is only used in single selector
+
+        var $sel;
+        
+        if (typeof sel === "string") {
+            $sel = $(sel)[0];
+        }
+        else {
+            $sel = [sel][0];
+        }
 
         if ($sel) {
             var regex = new RegExp(className);
@@ -51,6 +81,32 @@
         }
 
         return false;
+    };
+
+    $.siblings = function(allSel, targetSel) {
+
+        var doms = $(allSel),
+            targetDom = $(targetSel)[0],
+            nextSibling = null,
+            prevSibling = null;
+
+        for (var i = 0, len = doms.length; i < len; i++) {
+
+            // matched 
+            if (doms[i] == targetDom) {
+                if (typeof doms[i-1] !== "undefined") {
+                    prevSibling = doms[i-1];
+                }
+                if (typeof doms[i+1] !== "undefined") {
+                    nextSibling = doms[i+1];
+                }
+            }
+        }
+
+        return {
+            next : nextSibling,
+            prev : prevSibling 
+        };
     };
 
     var AutoComplete = function(targetSelector, userOptions) {
@@ -186,16 +242,17 @@
                         that.selectMatchedData();
                     }
                     else if (KeyMap[e.which] === "UP") {
-                        that.moveMatchedData("UP"); 
+                        that.moveAutocompleteSelector("UP"); 
                     }
                     else if (KeyMap[e.which] === "DOWN") {
-                        that.moveMatchedData("DOWN");
+                        that.moveAutocompleteSelector("DOWN");
                     }
                     else {
                         var userInputValue = that.trimSpaces(this.value);
                         that.autoCompleteMatchedData = that.searchPossibleMatches(userInputValue);
 
                         if (that.isMatched()) {
+
                             // remove them first
                             that.removeAutocompleteList();
                             that.createAutocompleteList();
@@ -247,14 +304,19 @@
             return matches;
         },
 
-        moveMatchedData : function(direction) {
-            $.removeClass("." + this.autoCompleteListClass, "selected");
+        moveAutocompleteSelector : function(direction) {
 
-            if (direction === "UP") {
-                                 
-            }
-            else {
+            var siblings = $.siblings("." + this.autoCompleteListClass, "." + this.autoCompleteListClass + ".selected");
+            // make sure we have siblings so that we can move selector
+            if (siblings.prev || siblings.next) {
 
+                $.removeClass("." + this.autoCompleteListClass, "selected");
+                if (direction === "UP") {
+                    $.addClass(siblings.prev, "selected");
+                }
+                else {
+                    $.addClass(siblings.next, "selected");
+                }
             }
         },
 

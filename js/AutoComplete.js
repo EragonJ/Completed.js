@@ -87,7 +87,7 @@
             if ( $("." + this.autoCompleteWrapperClass).length === 0 ) {
 
                 var wrapperDiv = document.createElement("div");
-                wrapperDiv.className = this.autoCompleteWrapperClass;
+                wrapperDiv.className = this.autoCompleteWrapperClass + " close";
 
                 $("body")[0].appendChild(wrapperDiv);
             }
@@ -108,7 +108,21 @@
                 fragment.appendChild(eachListDiv);
             }
 
-            $("."+ this.autoCompleteWrapperClass).appendChild(fragment);
+            $("." + this.autoCompleteWrapperClass)[0].appendChild(fragment);
+        },
+
+        showAutocompleteWrapper : function() {
+            if (!this.autoCompleteOpening) {
+                $.removeClass("." + this.autoCompleteWrapperClass, "close");
+            }
+            this.autoCompleteOpening = true;
+        },
+
+        hideAutocompleteWrapper : function() {
+            if (this.autoCompleteOpening) {
+                $.addClass("." + this.autoCompleteWrapperClass, "close");
+            }
+            this.autoCompleteOpening = false;
         },
 
         getAutocompleteData : function(callback) {
@@ -143,14 +157,18 @@
                     var userInputValue = that.trimSpaces(this.value),
                         matches = that.searchPossibleMatches(userInputValue);
 
-                    console.log(matches);
+                    // clean first
+                    if (matches.length > 0) {
+                        that.createAutocompleteList(matches);
+                        that.showAutocompleteWrapper();
+                    }
+                    else {
+                        that.hideAutocompleteWrapper();
+                    }
                 };
 
                 dom.onblur = function(e) {
-
-                    that.autoCompleteOpening = false;              
-
-
+                    that.hideAutocompleteWrapper();
                 };
             }
         },

@@ -1,5 +1,13 @@
 .autocomplete-wrapper {
+    width: auto;
+    height: 300px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    border: 1px solid black;
 
+    -webkit-border-radius: 5px;
+       -moz-border-radius: 5px;
+            border-radius: 5px;
 }
 
 .autocomplete-wrapper.close {
@@ -7,5 +15,10 @@
 }
 
 .autocomplete-list {
+    padding: 5px 5px 5px 10px;
+    background-color: #ccc;
+}
 
+.autocomplete-list:hover {
+    background-color: #eee;
 }

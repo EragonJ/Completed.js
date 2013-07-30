@@ -142,6 +142,16 @@
             this.autoCompleteOpening = false;
         },
 
+        repositionAutocompleteWrapper : function(dom) {
+
+            var VISUAL_OFFSET = 5,
+                rect = dom.getBoundingClientRect(),
+                $wrapper = $("." + this.autoCompleteWrapperClass)[0];
+
+            $wrapper.style.top = parseInt(rect.top + rect.height + VISUAL_OFFSET, 10) + "px";
+            $wrapper.style.left = parseInt(rect.left, 10) + "px";
+        },
+
         getAutocompleteData : function(callback) {
 
             var that = this;
@@ -189,6 +199,7 @@
                             // remove them first
                             that.removeAutocompleteList();
                             that.createAutocompleteList();
+                            that.repositionAutocompleteWrapper(dom);
                             that.showAutocompleteWrapper();
                         }
                         else {
@@ -200,6 +211,7 @@
                 dom.onfocus = function(e) {
                     // because they are still left in the DOM tree 
                     if (that.isMatched()) {
+                        that.repositionAutocompleteWrapper(dom);
                         that.showAutocompleteWrapper();
                     }
                 };

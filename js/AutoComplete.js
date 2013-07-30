@@ -111,6 +111,14 @@
             $("." + this.autoCompleteWrapperClass)[0].appendChild(fragment);
         },
 
+        removeAutocompleteList : function() {
+            var $wrapper = $("." + this.autoCompleteWrapperClass)[0];
+
+            while($wrapper.firstChild) {
+                $wrapper.removeChild($wrapper.firstChild);
+            }
+        },
+
         showAutocompleteWrapper : function() {
             if (!this.autoCompleteOpening) {
                 $.removeClass("." + this.autoCompleteWrapperClass, "close");
@@ -157,8 +165,9 @@
                     var userInputValue = that.trimSpaces(this.value),
                         matches = that.searchPossibleMatches(userInputValue);
 
-                    // clean first
                     if (matches.length > 0) {
+                        // remove them first
+                        that.removeAutocompleteList();
                         that.createAutocompleteList(matches);
                         that.showAutocompleteWrapper();
                     }

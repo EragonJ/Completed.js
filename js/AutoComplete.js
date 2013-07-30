@@ -14,7 +14,9 @@
         }
     }
 
-    // helpers
+    // TODO
+    // refactor helpers to different places 
+    // and rewrite $.* functions for multiple selectors
     var $ = function(sel) {
         return document.querySelectorAll(sel);
     }; 
@@ -64,6 +66,7 @@
         this.autoCompleteWrapperClass = "autocomplete-wrapper";
         this.autoCompleteListClass = "autocomplete-list"
         this.autoCompleteOpening = false;
+        this.autoCompleteMatchedData = [];
 
         // start point
         this.init();
@@ -78,7 +81,7 @@
                 
                 this.createAutocompleteWrapper();
 
-                this.bindEvents();
+                this.bindInputSearchEvent();
 
             });
         },
@@ -93,9 +96,10 @@
             }
         },
 
-        createAutocompleteList : function(matches) {
+        createAutocompleteList : function() {
 
-            var fragment = document.createDocumentFragment();
+            var fragment = document.createDocumentFragment(),
+                matches = this.autoCompleteMatchedData;
 
             for (var i = 0, len = matches.length; i < len; i++) {
 
@@ -104,6 +108,11 @@
                
                 eachListDiv.innerHTML = match;
                 eachListDiv.className = this.autoCompleteListClass;
+
+                // select the first one
+                if (i === 0) {
+                    eachListDiv.className += " selected";
+                }
 
                 fragment.appendChild(eachListDiv);
             }
@@ -153,7 +162,8 @@
             }
         },
         
-        bindEvents : function() {
+        bindInputSearchEvent : function() {
+
             var that = this;
 
             for (var i = 0, len = this.doms.length; i < len; i++) {
@@ -161,18 +171,36 @@
                 var dom = this.doms[i];
 
                 dom.onkeyup = function(e) {
-                    
-                    var userInputValue = that.trimSpaces(this.value),
-                        matches = that.searchPossibleMatches(userInputValue);
 
-                    if (matches.length > 0) {
-                        // remove them first
-                        that.removeAutocompleteList();
-                        that.createAutocompleteList(matches);
-                        that.showAutocompleteWrapper();
+                    if (KeyMap[e.which] === "ENTER") {
+                        that.selectMatchedData();
+                    }
+                    else if (KeyMap[e.which] === "UP") {
+                        that.moveMatchedData("UP"); 
+                    }
+                    else if (KeyMap[e.which] === "DOWN") {
+                        that.moveMatchedData("DOWN");
                     }
                     else {
-                        that.hideAutocompleteWrapper();
+                        var userInputValue = that.trimSpaces(this.value);
+                        that.autoCompleteMatchedData = that.searchPossibleMatches(userInputValue);
+
+                        if (that.isMatched()) {
+                            // remove them first
+                            that.removeAutocompleteList();
+                            that.createAutocompleteList();
+                            that.showAutocompleteWrapper();
+                        }
+                        else {
+                            that.hideAutocompleteWrapper();
+                        }
+                    }
+                };
+
+                dom.onfocus = function(e) {
+                    // because they are still left in the DOM tree 
+                    if (that.isMatched()) {
+                        that.showAutocompleteWrapper();
                     }
                 };
 
@@ -206,6 +234,25 @@
 
             return matches;
         },
+
+        moveMatchedData : function(direction) {
+            $.removeClass("." + this.autoCompleteListClass, "selected");
+
+            if (direction === "UP") {
+                                 
+            }
+            else {
+
+            }
+        },
+
+        selectMatchedData : function() {
+            
+        },
+
+        isMatched : function() {
+            return (this.autoCompleteMatchedData.length > 0);
+        }
 
     };
 

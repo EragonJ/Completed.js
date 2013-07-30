@@ -61,7 +61,8 @@
 
         this.autoCompleteData = userOptions.data || null;
         this.autoCompleteDataSrc = userOptions.dataSrc || "data/autocomplete.json";
-        this.autoCompleteId = "autoCompleteWrapper";
+        this.autoCompleteWrapperClass = "autocomplete-wrapper";
+        this.autoCompleteListClass = "autocomplete-list"
         this.autoCompleteOpening = false;
 
         // start point
@@ -83,13 +84,31 @@
         },
 
         createAutocompleteWrapper : function() {
-            if ( $("#" + this.autoCompleteId).length === 0 ) {
+            if ( $("." + this.autoCompleteWrapperClass).length === 0 ) {
 
                 var wrapperDiv = document.createElement("div");
-                wrapperDiv.id = this.autoCompleteId;
+                wrapperDiv.className = this.autoCompleteWrapperClass;
 
                 $("body")[0].appendChild(wrapperDiv);
             }
+        },
+
+        createAutocompleteList : function(matches) {
+
+            var fragment = document.createDocumentFragment();
+
+            for (var i = 0, len = matches.length; i < len; i++) {
+
+                var match = matches[i],
+                    eachListDiv = document.createElement("div");
+               
+                eachListDiv.innerHTML = match;
+                eachListDiv.className = this.autoCompleteListClass;
+
+                fragment.appendChild(eachListDiv);
+            }
+
+            $("."+ this.autoCompleteWrapperClass).appendChild(fragment);
         },
 
         getAutocompleteData : function(callback) {

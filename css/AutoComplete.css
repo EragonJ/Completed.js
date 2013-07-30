@@ -1,7 +1,11 @@
-#autoCompleteWrapper {
+.autocomplete-wrapper {
 
 }
 
-#autoCompleteWrapper.close {
+.autocomplete-wrapper.close {
     display: none;
+}
+
+.autocomplete-list {
+
 }

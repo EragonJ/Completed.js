@@ -4,7 +4,8 @@
     max-height: 150px;
     overflow-x: hidden;
     overflow-y: auto;
-    border: 1px solid black;
+    border: 1px solid #ccc;
+    background: #fff;
     /* we put it higher by default */
     z-index: 99999;
 

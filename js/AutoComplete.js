@@ -119,6 +119,8 @@
 
         this.autoCompleteData = userOptions.data || null;
         this.autoCompleteDataSrc = userOptions.dataSrc || "data/autocomplete.json";
+        this.autoCompleteSearchTimer = null;
+        this.autoCompleteSearchDelay = userOptions.delay || 10;
         this.autoCompleteWrapperClass = "autocomplete-wrapper";
         this.autoCompleteListClass = "autocomplete-list"
         this.autoCompleteOpening = false;
@@ -236,35 +238,44 @@
 
                 var dom = this.doms[i];
 
-                dom.onkeyup = function(e) {
+                dom.onkeydown = function(e) {
 
                     if (KeyMap[e.which] === "ENTER") {
                         that.selectMatchedData();
                     }
                     else if (KeyMap[e.which] === "UP") {
                         that.moveAutocompleteSelector("UP"); 
+                        e.preventDefault()
                     }
                     else if (KeyMap[e.which] === "DOWN") {
                         that.moveAutocompleteSelector("DOWN");
+                        e.preventDefault()
                     }
                     else if (KeyMap[e.which] === "ESC") {
                         that.hideAutocompleteWrapper();
                     }
                     else {
-                        var userInputValue = that.trimSpaces(this.value);
-                        that.autoCompleteMatchedData = that.searchPossibleMatches(userInputValue);
 
-                        if (that.isMatched()) {
+                        window.clearTimeout(that.autoCompleteSearchTimer);
+                        that.autoCompleteSearchTimer = window.setTimeout(function() {
 
-                            // remove them first
-                            that.removeAutocompleteList();
-                            that.createAutocompleteList();
-                            that.repositionAutocompleteWrapper(dom);
-                            that.showAutocompleteWrapper();
-                        }
-                        else {
-                            that.hideAutocompleteWrapper();
-                        }
+                            var userInputValue = that.trimSpaces(dom.value);
+                            that.autoCompleteMatchedData = that.searchPossibleMatches(userInputValue);
+
+                            if (that.isMatched()) {
+
+                                // remove them first
+                                that.removeAutocompleteList();
+                                that.createAutocompleteList();
+                                that.repositionAutocompleteWrapper(dom);
+                                that.showAutocompleteWrapper();
+                            }
+                            else {
+                                that.hideAutocompleteWrapper();
+                            }
+
+                        }, that.autoCompleteSearchDelay);
+
                     }
                 };
 

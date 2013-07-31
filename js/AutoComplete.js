@@ -45,7 +45,7 @@
             this.getAutocompleteData(function() {
                 
                 this.createAutocompleteWrapper();
-                this.bindAutocompleteWrapperClickEvent();
+                this.bindAutocompleteWrapperMouseEvent();
                 this.bindInputSearchEvent();
 
             });
@@ -137,7 +137,7 @@
             }
         },
 
-        bindAutocompleteWrapperClickEvent : function() {
+        bindAutocompleteWrapperMouseEvent : function() {
 
             var that = this,
                 $wrapper = $("." + this.autoCompleteWrapperClass)[0];
@@ -146,10 +146,19 @@
             // Because Event trigger order : mousedown > blur > click,
             // we have to make sure to get focus input before blur out.
             $.on("mousedown", $wrapper, function(e) {
+
                 // Delegate
-                if (e.target && $.hasClass(e.target, that.autoCompleteListClass)) {
+                if (that.isAutocompleteList(e.target)) {
                     that.selectMatchedData();
                     that.hideAutocompleteWrapper();
+                }
+            });
+
+            $.on("mouseover", $wrapper, function(e) {
+                $.removeClass("." + that.autoCompleteListClass, "selected");
+
+                if (that.isAutocompleteList(e.target)) {
+                    $.addClass(e.target, "selected");
                 }
             });
         },
@@ -267,6 +276,10 @@
 
         isMatched : function() {
             return (this.autoCompleteMatchedData.length > 0);
+        },
+
+        isAutocompleteList : function(dom) {
+            return (dom && $.hasClass(dom, this.autoCompleteListClass));
         }
 
     };

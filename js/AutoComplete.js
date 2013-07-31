@@ -293,6 +293,11 @@
 
         selectMatchedData : function() {
 
+            // make sure we can select data
+            if (!this.autoCompleteOpening) {
+                return;
+            }
+
             var $focusedInput = $(this.inputSelectors + ":focus")[0],
                 $selectedListItem = $("." + this.autoCompleteListClass + ".selected")[0],
                 matchedData = $selectedListItem.innerHTML;

@@ -96,5 +96,21 @@
         return userInput.replace(/^\s\s*/, '').replace(/\s\s*$/,'');
     };
 
+    $.on = function(eventName, sel, callback) {
+
+        var $sel;
+
+        if (typeof sel === "string") {
+            $sel = $(sel);
+        }
+        else {
+            $sel = [sel];
+        }
+
+        for (var i = 0, len = $sel.length; i < len; i++) {
+            $sel[i].addEventListener(eventName, callback, false);
+        }
+    };
+
     window.$ = $;
 }());

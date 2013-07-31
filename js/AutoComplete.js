@@ -33,6 +33,11 @@
         this.autoCompleteOpening = false;
         this.autoCompleteMatchedData = [];
 
+        // constants
+        this.AC_MAX_LIST_COUNT = 5;
+        this.AC_LIST_OFFSET = 30;
+        this.AC_WRAPPER_OFFSET = 5;
+
         // start point
         this.init();
     };
@@ -109,12 +114,30 @@
 
         repositionAutocompleteWrapper : function(dom) {
 
-            var VISUAL_OFFSET = 5,
-                rect = dom.getBoundingClientRect(),
+            var rect = dom.getBoundingClientRect(),
                 $wrapper = $("." + this.autoCompleteWrapperClass)[0];
 
-            $wrapper.style.top = parseInt(rect.top + rect.height + VISUAL_OFFSET, 10) + "px";
+            $wrapper.style.top = parseInt(rect.top + rect.height + this.AC_WRAPPER_OFFSET, 10) + "px";
             $wrapper.style.left = parseInt(rect.left, 10) + "px";
+        },
+
+        scrollAutocompleteWrapper : function(direction) {
+
+            var $wrapper = $("." + this.autoCompleteWrapperClass)[0],
+                $selectedListItem = $("." + this.autoCompleteListClass + ".selected")[0];
+
+            if ($selectedListItem.offsetTop >= $wrapper.scrollTop &&
+                    $selectedListItem.offsetTop <= $wrapper.scrollTop + (this.AC_MAX_LIST_COUNT - 1) * this.AC_LIST_OFFSET) {
+                // we won't change the scrollTop if the cursor is located in this zone
+            }
+            else {
+                if (direction === "UP") {
+                    $wrapper.scrollTop -= this.AC_LIST_OFFSET;
+                }
+                else {
+                    $wrapper.scrollTop += this.AC_LIST_OFFSET;
+                }
+            }
         },
 
         getAutocompleteData : function(callback) {
@@ -262,6 +285,9 @@
                 else {
                     $.addClass(siblings.next, "selected");
                 }
+
+                // then scroll
+                this.scrollAutocompleteWrapper(direction);
             }
         },
 

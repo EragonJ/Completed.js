@@ -1,6 +1,7 @@
 .autocomplete-wrapper {
     position: absolute;
     width: 400px;
+    max-height: 150px;
     overflow-x: hidden;
     overflow-y: auto;
     border: 1px solid black;

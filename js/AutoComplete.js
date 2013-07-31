@@ -247,6 +247,9 @@
                     else if (KeyMap[e.which] === "DOWN") {
                         that.moveAutocompleteSelector("DOWN");
                     }
+                    else if (KeyMap[e.which] === "ESC") {
+                        that.hideAutocompleteWrapper();
+                    }
                     else {
                         var userInputValue = that.trimSpaces(this.value);
                         that.autoCompleteMatchedData = that.searchPossibleMatches(userInputValue);
@@ -307,10 +310,12 @@
         moveAutocompleteSelector : function(direction) {
 
             var siblings = $.siblings("." + this.autoCompleteListClass, "." + this.autoCompleteListClass + ".selected");
+
             // make sure we have siblings so that we can move selector
-            if (siblings.prev || siblings.next) {
+            if (siblings.prev && direction === "UP" || siblings.next && direction === "DOWN" ) {
 
                 $.removeClass("." + this.autoCompleteListClass, "selected");
+
                 if (direction === "UP") {
                     $.addClass(siblings.prev, "selected");
                 }

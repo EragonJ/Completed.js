@@ -241,7 +241,8 @@
                 dom.onkeydown = function(e) {
 
                     if (KeyMap[e.which] === "ENTER") {
-                        that.selectMatchedData();
+                        that.selectMatchedData(dom);
+                        that.hideAutocompleteWrapper();
                     }
                     else if (KeyMap[e.which] === "UP") {
                         that.moveAutocompleteSelector("UP"); 
@@ -253,6 +254,7 @@
                     }
                     else if (KeyMap[e.which] === "ESC") {
                         that.hideAutocompleteWrapper();
+                        e.preventDefault()
                     }
                     else {
 
@@ -336,8 +338,12 @@
             }
         },
 
-        selectMatchedData : function() {
-            
+        selectMatchedData : function(dom) {
+
+            var $selectedListItem = $("." + this.autoCompleteListClass + ".selected")[0],
+                matchedData = $selectedListItem.innerHTML;
+
+            dom.value = matchedData;
         },
 
         isMatched : function() {

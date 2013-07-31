@@ -15,13 +15,14 @@
         }
     }
 
-    var AutoComplete = function(targetSelector, userOptions) {
+    var AutoComplete = function(inputSelectors, userOptions) {
 
         // options
         userOptions = userOptions || {};
 
         // internal values
-        this.doms = $(targetSelector);
+        this.doms = $(inputSelectors);
+        this.inputSelectors = inputSelectors;
 
         this.autoCompleteData = userOptions.data || null;
         this.autoCompleteDataSrc = userOptions.dataSrc || "data/autocomplete.json";
@@ -44,7 +45,7 @@
             this.getAutocompleteData(function() {
                 
                 this.createAutocompleteWrapper();
-
+                this.bindAutocompleteWrapperClickEvent();
                 this.bindInputSearchEvent();
 
             });
@@ -135,6 +136,23 @@
                 callback.call(that);
             }
         },
+
+        bindAutocompleteWrapperClickEvent : function() {
+
+            var that = this,
+                $wrapper = $("." + this.autoCompleteWrapperClass)[0];
+
+            // XXX
+            // Because Event trigger order : mousedown > blur > click,
+            // we have to make sure to get focus input before blur out.
+            $.on("mousedown", $wrapper, function(e) {
+                // Delegate
+                if (e.target && $.hasClass(e.target, that.autoCompleteListClass)) {
+                    that.selectMatchedData();
+                    that.hideAutocompleteWrapper();
+                }
+            });
+        },
         
         bindInputSearchEvent : function() {
 
@@ -144,10 +162,9 @@
 
                 var dom = this.doms[i];
 
-                dom.onkeydown = function(e) {
-
+                $.on("keydown", dom, function(e) {
                     if (KeyMap[e.which] === "ENTER") {
-                        that.selectMatchedData(dom);
+                        that.selectMatchedData();
                         that.hideAutocompleteWrapper();
                     }
                     else if (KeyMap[e.which] === "UP") {
@@ -183,21 +200,20 @@
                             }
 
                         }, that.autoCompleteSearchDelay);
-
                     }
-                };
+                });
 
-                dom.onfocus = function(e) {
+                $.on("focus", dom, function(e) {
                     // because they are still left in the DOM tree 
                     if (that.isMatched()) {
                         that.repositionAutocompleteWrapper(dom);
                         that.showAutocompleteWrapper();
                     }
-                };
+                });
 
-                dom.onblur = function(e) {
+                $.on("blur", dom, function(e) {
                     that.hideAutocompleteWrapper();
-                };
+                });
             }
         },
 
@@ -240,12 +256,13 @@
             }
         },
 
-        selectMatchedData : function(dom) {
+        selectMatchedData : function() {
 
-            var $selectedListItem = $("." + this.autoCompleteListClass + ".selected")[0],
+            var $focusedInput = $(this.inputSelectors + ":focus")[0],
+                $selectedListItem = $("." + this.autoCompleteListClass + ".selected")[0],
                 matchedData = $selectedListItem.innerHTML;
 
-            dom.value = matchedData;
+            $focusedInput.value = matchedData;
         },
 
         isMatched : function() {

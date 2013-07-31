@@ -1,7 +1,6 @@
 .autocomplete-wrapper {
     position: absolute;
     width: 400px;
-    height: 300px;
     overflow-x: hidden;
     overflow-y: auto;
     border: 1px solid black;
@@ -23,7 +22,8 @@
 
 .autocomplete-list {
     padding: 5px 5px 5px 10px;
-    background-color: #eee;
+    line-height: 20px;
+    font-size: 16px;
 }
 
 .autocomplete-list.selected {

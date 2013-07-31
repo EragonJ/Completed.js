@@ -109,6 +109,10 @@
         };
     };
 
+    $.trim = function(userInput) {
+        return userInput.replace(/^\s\s*/, '').replace(/\s\s*$/,'');
+    };
+
     var AutoComplete = function(targetSelector, userOptions) {
 
         // options
@@ -261,7 +265,7 @@
                         window.clearTimeout(that.autoCompleteSearchTimer);
                         that.autoCompleteSearchTimer = window.setTimeout(function() {
 
-                            var userInputValue = that.trimSpaces(dom.value);
+                            var userInputValue = $.trim(dom.value);
                             that.autoCompleteMatchedData = that.searchPossibleMatches(userInputValue);
 
                             if (that.isMatched()) {
@@ -293,10 +297,6 @@
                     that.hideAutocompleteWrapper();
                 };
             }
-        },
-
-        trimSpaces : function(userInputValue) {
-            return userInputValue.replace(/^\s\s*/, '').replace(/\s\s*$/,'');
         },
 
         searchPossibleMatches : function(userInputValue) {

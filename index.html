@@ -21,15 +21,29 @@
         <script src="js/AutoComplete" type="text/javascript"></script>
     </head>
     <body>
-        <h1>Mozilla Autocomplete Plugin</h1>
-        <div>
-            <label for="autocompleteInput">Your TimeZone :</label> 
-            <input class="test1234 tttt test4567" type="text" id="autocompleteInput">
+
+        <div class="container">
+            <h1>Mozilla Autocomplete Plugin</h1>
+            <div>
+                <label for="autocompleteInput">Your TimeZone :</label> 
+                <input type="text" id="autocompleteInput">
+            </div>
+
+            <h2>How to use</h2>
+            <p>In this example, I take the whole tz.json as my autocomplete list.</p>
+            <p>You can just focus on the input above and type anything, then my plugin will try to list down matched timezones for you. </p>
+            <p>You can use up/down arrows or mouse to choose the timezone you want from matched list.</p>
+
+            <h2>Author</h2>
+            <p>Name : Chia-Lung, Chen (EragonJ)</p>
+            <p>Email : eragonj@eragonj.me</p>
+            <p>Resume : <a href="https://www.dropbox.com/s/wr87fdkd6hwh6nz/Resume.pdf">Click</a></p>
         </div>
 
         <!-- personal js -->
         <script type="text/javascript" charset="utf-8">
             var autocomplete = new AutoComplete("#autocompleteInput", {
+                // You can put your personal options here
             });
         </script>
     </body>

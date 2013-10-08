@@ -8,9 +8,9 @@
     var $ = Completed.module.get("$");
 
     /*
-     *  Main AutoComplete
+     *  Main newCompleted
      */
-    var AutoComplete = function(inputSelectors, userOptions) {
+    var newCompleted = function(inputSelectors, userOptions) {
 
         // options
         userOptions = userOptions || {};
@@ -37,7 +37,7 @@
         this.init();
     };
 
-    AutoComplete.prototype = {
+    newCompleted.prototype = {
 
         init : function() {
 
@@ -310,5 +310,5 @@
 
     };
 
-    window.Completed = AutoComplete;
+    window.Completed = newCompleted;
 }());

@@ -25,7 +25,7 @@
         this.inputSelectors = inputSelectors;
 
         this.autoCompleteData = userOptions.data || null;
-        this.autoCompleteDataSrc = userOptions.dataSrc || "data/autocomplete.json";
+        this.autoCompleteDataSrc = userOptions.dataSrc || "public/data/autocomplete.json";
         this.autoCompleteSearchTimer = null;
         this.autoCompleteSearchDelay = userOptions.delay || 10;
         this.autoCompleteWrapperClass = "autocomplete-wrapper";

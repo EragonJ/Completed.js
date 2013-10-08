@@ -1,20 +1,15 @@
 (function() {
 
-    // Dependencies Check first
-    var dependencies = [
-        "Getter",
-        "KeyMap",
-        "$"
-    ];
+    /*
+     *  Module dependencies
+     */
+    var Getter = Completed.module.get("Getter");
+    var KeyMap = Completed.module.get("KeyMap");
+    var $ = Completed.module.get("$");
 
-    for (var i = 0, len = dependencies.length; i < len; i++) {
-        if (typeof window[dependencies[i]] === "undefined") {
-            console.error("AutoComplete depends on following libraries : " + dependencies.join(" "));
-            console.error("Please Load them before using it");
-            return false;
-        }
-    }
-
+    /*
+     *  Main AutoComplete
+     */
     var AutoComplete = function(inputSelectors, userOptions) {
 
         // options
@@ -315,5 +310,5 @@
 
     };
 
-    window.AutoComplete = AutoComplete;
+    window.Completed = AutoComplete;
 }());

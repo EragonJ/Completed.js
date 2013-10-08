@@ -7,7 +7,7 @@ module.exports = function(grunt) {
         separator: ';'
       },
       dist: {
-        src: ['src/keyMap.js', 'src/Utils.js', 'src/Getter.js', 'src/AutoComplete.js'],
+        src: ['src/Init.js', 'src/keyMap.js', 'src/Utils.js', 'src/Getter.js', 'src/AutoComplete.js'],
         dest: 'dist/<%= pkg.name %>.js'
       }
     },

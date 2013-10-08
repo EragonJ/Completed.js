@@ -1,4 +1,24 @@
 (function() {
+    if (typeof window.Completed === "undefined") {
+        var Completed = {};
+        var module = {};
+
+        Completed.module = {
+            add: function(moduleName, moduleContent) {
+                if (!module[moduleName]) {
+                    module[moduleName] = moduleContent; 
+                }
+            },
+            get: function(moduleName) {
+                return module[moduleName];
+            }
+        };
+
+        window.Completed = Completed;
+    }
+}());
+;(function() {
+
     var KeyMap = {
         "13" : "ENTER",
         "27" : "ESC",
@@ -9,7 +29,7 @@
         "40" : "DOWN"
     };
 
-    window.KeyMap = KeyMap;
+    Completed.module.add("KeyMap", KeyMap);
 }());
 ;(function() {
 
@@ -125,7 +145,7 @@
         }
     };
 
-    window.$ = $;
+    Completed.module.add("$", $);
 }());
 ;/*
  *  Scenario : 
@@ -136,58 +156,51 @@
  */
 
 (function() {
-    if (typeof window.Getter === "undefined") {
 
-        // TODO
-        // check arguments later
-        var Getter = function(url, callback) {
-            var xhr;
+    // TODO
+    // check arguments later
+    var Getter = function(url, callback) {
+        var xhr;
 
-            if (typeof XMLHttpRequest !== "undefined") {
-                xhr = new XMLHttpRequest(); 
+        if (typeof XMLHttpRequest !== "undefined") {
+            xhr = new XMLHttpRequest(); 
+        }
+        else {
+            // No IE here
+        }
+
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState < 4) {
+                return;
             }
-            else {
-                // No IE here
+
+            if (xhr.status !== 200) {
+                return;
             }
 
-            xhr.onreadystatechange = function() {
-                if (xhr.readyState < 4) {
-                    return;
-                }
-
-                if (xhr.status !== 200) {
-                    return;
-                }
-
-                if (xhr.readyState === 4) {
-                    callback(xhr.responseText);
-                }
-            };
-
-            xhr.open("GET", url, true);
-            xhr.send("");
+            if (xhr.readyState === 4) {
+                callback(xhr.responseText);
+            }
         };
 
-        window.Getter = Getter;
-    }
+        xhr.open("GET", url, true);
+        xhr.send("");
+    };
+
+    Completed.module.add("Getter", Getter);
 }());
 ;(function() {
 
-    // Dependencies Check first
-    var dependencies = [
-        "Getter",
-        "KeyMap",
-        "$"
-    ];
+    /*
+     *  Module dependencies
+     */
+    var Getter = Completed.module.get("Getter");
+    var KeyMap = Completed.module.get("KeyMap");
+    var $ = Completed.module.get("$");
 
-    for (var i = 0, len = dependencies.length; i < len; i++) {
-        if (typeof window[dependencies[i]] === "undefined") {
-            console.error("AutoComplete depends on following libraries : " + dependencies.join(" "));
-            console.error("Please Load them before using it");
-            return false;
-        }
-    }
-
+    /*
+     *  Main AutoComplete
+     */
     var AutoComplete = function(inputSelectors, userOptions) {
 
         // options
@@ -488,5 +501,5 @@
 
     };
 
-    window.AutoComplete = AutoComplete;
+    window.Completed = AutoComplete;
 }());

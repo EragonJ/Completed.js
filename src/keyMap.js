@@ -1,4 +1,5 @@
 (function() {
+
     var KeyMap = {
         "13" : "ENTER",
         "27" : "ESC",
@@ -9,5 +10,5 @@
         "40" : "DOWN"
     };
 
-    window.KeyMap = KeyMap;
+    Completed.module.add("KeyMap", KeyMap);
 }());

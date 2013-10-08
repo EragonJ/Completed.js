@@ -7,38 +7,36 @@
  */
 
 (function() {
-    if (typeof window.Getter === "undefined") {
 
-        // TODO
-        // check arguments later
-        var Getter = function(url, callback) {
-            var xhr;
+    // TODO
+    // check arguments later
+    var Getter = function(url, callback) {
+        var xhr;
 
-            if (typeof XMLHttpRequest !== "undefined") {
-                xhr = new XMLHttpRequest(); 
+        if (typeof XMLHttpRequest !== "undefined") {
+            xhr = new XMLHttpRequest(); 
+        }
+        else {
+            // No IE here
+        }
+
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState < 4) {
+                return;
             }
-            else {
-                // No IE here
+
+            if (xhr.status !== 200) {
+                return;
             }
 
-            xhr.onreadystatechange = function() {
-                if (xhr.readyState < 4) {
-                    return;
-                }
-
-                if (xhr.status !== 200) {
-                    return;
-                }
-
-                if (xhr.readyState === 4) {
-                    callback(xhr.responseText);
-                }
-            };
-
-            xhr.open("GET", url, true);
-            xhr.send("");
+            if (xhr.readyState === 4) {
+                callback(xhr.responseText);
+            }
         };
 
-        window.Getter = Getter;
-    }
+        xhr.open("GET", url, true);
+        xhr.send("");
+    };
+
+    Completed.module.add("Getter", Getter);
 }());

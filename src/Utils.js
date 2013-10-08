@@ -112,5 +112,5 @@
         }
     };
 
-    window.$ = $;
+    Completed.module.add("$", $);
 }());

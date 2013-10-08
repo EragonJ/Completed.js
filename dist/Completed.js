@@ -191,12 +191,28 @@
 }());
 ;(function() {
 
+    var Console = {};
+
+    if (window.console === "undefined") {
+        ["log", "warn", "debug", "info", "error"].forEach(function(methodName) {
+            Console[methodName] = function() { };
+        });
+    }
+    else {
+        Console = window.console;
+    }
+    
+    Completed.module.add("Console", Console);
+}());
+;(function() {
+
     /*
      *  Module dependencies
      */
     var Getter = Completed.module.get("Getter");
     var KeyMap = Completed.module.get("KeyMap");
     var $ = Completed.module.get("$");
+    var console = Completed.module.get("Console");
 
     /*
      *  Main newCompleted

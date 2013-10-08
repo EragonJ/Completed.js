@@ -6,9 +6,10 @@
     var Getter = Completed.module.get("Getter");
     var KeyMap = Completed.module.get("KeyMap");
     var $ = Completed.module.get("$");
+    var console = Completed.module.get("Console");
 
     /*
-     *  Main newCompleted
+     *  Main
      */
     var newCompleted = function(inputSelectors, userOptions) {
 

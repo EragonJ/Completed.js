@@ -8,17 +8,14 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <!-- normalize css -->
-        <link rel="stylesheet" href="css/normalize.css">
+        <link rel="stylesheet" href="public/css/normalize.css">
         
         <!-- personal css -->
-        <link rel="stylesheet" href="css/AutoComplete.css">
-        <link rel="stylesheet" href="css/index.css">
+        <link rel="stylesheet" href="public/css/AutoComplete.css">
+        <link rel="stylesheet" href="public/css/index.css">
 
         <!-- library js -->
-        <script src="js/Getter.js" type="text/javascript"></script>
-        <script src="js/keyMap.js" type="text/javascript"></script>
-        <script src="js/Utils.js" type="text/javascript"></script>
-        <script src="js/AutoComplete.js" type="text/javascript"></script>
+        <script src="dist/Completed.js" type="text/javascript"></script>
     </head>
     <body>
 
@@ -35,20 +32,20 @@
             <p>You can use up/down arrows or mouse to choose the timezone you want from the matched list.</p>
 
             <h2>Tested Browsers</h2>
-            <p>* Latest Chrome - 28.0.1500.71</p>
-            <p>* Latest Firefox - 22.0</p>
-            <p>* Latest Safari - 6.0.5</p>
-            <p><del>IE so sorry<del></p>
-
+            <p>Chrome >= 20.0</p>
+            <p>Firefox >= 22.0</p>
+            <p>Safari >= 5.0</p>
+            <p>IE >= 9.0</p>
+            
             <h2>Author</h2>
             <p>Name : Chia-Lung, Chen (EragonJ)</p>
             <p>Email : eragonj@eragonj.me</p>
-            <p>Resume : <a href="https://www.dropbox.com/s/wr87fdkd6hwh6nz/Resume.pdf" target="_blank">Click</a></p>
+            <p>Blog : <a href="http://eragonj.me" target="_blank">Click</a></p>
         </div>
 
         <!-- personal js -->
         <script type="text/javascript" charset="utf-8">
-            var autocomplete = new AutoComplete("#autocompleteInput", {
+            var autocomplete = new Completed("#autocompleteInput", {
                 // You can put your personal options here
             });
         </script>

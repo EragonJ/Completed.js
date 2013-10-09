@@ -1,0 +1,37 @@
+.autocomplete-wrapper {
+    position: absolute;
+    width: 400px;
+    max-height: 150px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    background: #fff;
+    /* we put it higher by default */
+    z-index: 99999;
+
+    -webkit-border-radius: 5px;
+       -moz-border-radius: 5px;
+            border-radius: 5px;
+
+    -webkit-box-shadow: 2px 2px 5px #ccc;
+       -moz-box-shadow: 2px 2px 5px #ccc;
+            box-shadow: 2px 2px 5px #ccc;
+}
+
+.autocomplete-wrapper.close {
+    display: none;
+}
+
+.autocomplete-list {
+    padding: 5px 5px 5px 10px;
+    line-height: 20px;
+    font-size: 16px;
+}
+
+.autocomplete-list.selected {
+    background-color: #ccc;
+}
+
+.autocomplete-list:hover {
+    cursor: pointer;
+}

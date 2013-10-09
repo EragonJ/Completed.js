@@ -11,12 +11,12 @@ Version
 Browser Compatibility
 =====================
 
-*Tested* on Following browsers
+**Tested** on Following browsers
 
-- Chrome >= 28.0
+- Chrome >= 20.0
 - Firefox >= 22.0
-- Safari >= 6.0.5
-- IE (So sorry xD, I am still working on it)
+- Safari >= 5.0
+- IE >= 9.0
 
 Author
 ======

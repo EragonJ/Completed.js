@@ -1,7 +1,8 @@
 {
-  "name": "Completed.js",
+  "name": "Completed",
   "devDependencies": {
     "grunt-contrib-watch": "~0.5.3",
-    "grunt-contrib-concat": "~0.3.0"
+    "grunt-contrib-concat": "~0.3.0",
+    "grunt-contrib-uglify": "~0.2.4"
   }
 }
